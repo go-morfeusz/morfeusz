@@ -45,7 +45,7 @@ func main() {
 
 ## Author
 
-Marcin Ciura < mciura at gmail dot com >
+Marcin Ciura
 
 ## License
 
