@@ -9,7 +9,8 @@
 package morfeusz
 
 /*
-#cgo LDFLAGS: -lmorfeusz2
+#cgo LDFLAGS: -stdlib=libstdc++ -lmorfeusz2
+#cgo CXXFLAGS: -std=c++11 -stdlib=libstdc++ -D_GLIBCXX_USE_CXX11_ABI=0
 #include "morfeusz-cgo.h"
 
 static struct String makeStructString(_GoString_ s) {
