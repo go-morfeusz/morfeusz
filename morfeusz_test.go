@@ -32,11 +32,11 @@ func ExampleMorfeusz() {
 	// 0 1 Ala Ala subst:sg:nom:f imię  ;
 	// 0 1 Ala Al subst:sg:gen.acc:m1 imię  ;
 	// 0 1 Ala Alo subst:sg:gen.acc:m1 imię  ;
-	// 1 2 ma mój:a adj:sg:nom.voc:f:pos   ;
 	// 1 2 ma mieć fin:sg:ter:imperf   ;
+	// 1 2 ma mój:A adj:sg:nom.voc:f:pos   ;
 	// 2 3 kota kota subst:sg:nom:f nazwa_pospolita  ;
-	// 2 3 kota kot:s1 subst:sg:gen.acc:m2 nazwa_pospolita  ;
-	// 2 3 kota kot:s2 subst:sg:gen.acc:m1 nazwa_pospolita pot.|środ. ;
+	// 2 3 kota kot:Sm1 subst:sg:gen.acc:m1 nazwa_pospolita pot.,środ. ;
+	// 2 3 kota kot:Sm2 subst:sg:gen.acc:m2 nazwa_pospolita  ;
 	// 3 4 . . interp   ;
 }
 
@@ -214,12 +214,12 @@ func TestAnalyse(t *testing.T) {
 	m.SetWhitespaceHandling(morfeusz.KeepWhitespaces)
 	got := analyseToTokenInfoSlice(t, m, "bez xyz")
 	want := []tokenInfo{
-		{0, 1, "bez", "bez:s", false, false,
+		{0, 1, "bez", "bez:P", false, false,
+			"prep:gen:nwok", "", ""},
+		{0, 1, "bez", "bez:S", false, false,
 			"subst:sg:nom.acc:m3", "nazwa_pospolita", "bot."},
 		{0, 1, "bez", "beza", false, false,
 			"subst:pl:gen:f", "nazwa_pospolita", ""},
-		{0, 1, "bez", "bez:p", false, false,
-			"prep:gen:nwok", "", ""},
 		{1, 2, " ", " ", false, true, "sp", "", ""},
 		{2, 3, "xyz", "xyz", true, false, "ign", "", ""},
 	}
@@ -235,40 +235,40 @@ func TestGenerate(t *testing.T) {
 		give string
 	}{
 		{[]tokenInfo{
-			{0, 1, "bez", "bez:s", false, false,
+			{0, 1, "bez", "bez:S", false, false,
 				"subst:sg:nom.acc:m3", np, bot},
-			{0, 1, "bzu", "bez:s", false, false,
+			{0, 1, "bzu", "bez:S", false, false,
 				"subst:sg:gen:m3", np, bot},
-			{0, 1, "bzowi", "bez:s", false, false,
+			{0, 1, "bzowi", "bez:S", false, false,
 				"subst:sg:dat:m3", np, bot},
-			{0, 1, "bzem", "bez:s", false, false,
+			{0, 1, "bzem", "bez:S", false, false,
 				"subst:sg:inst:m3", np, bot},
-			{0, 1, "bzie", "bez:s", false, false,
+			{0, 1, "bzie", "bez:S", false, false,
 				"subst:sg:loc:m3", np, bot},
-			{0, 1, "bzie", "bez:s", false, false,
+			{0, 1, "bzie", "bez:S", false, false,
 				"subst:sg:voc:m3", np, bot},
-			{0, 1, "bzy", "bez:s", false, false,
+			{0, 1, "bzy", "bez:S", false, false,
 				"subst:pl:nom.acc.voc:m3", np, bot},
-			{0, 1, "bzów", "bez:s", false, false,
+			{0, 1, "bzów", "bez:S", false, false,
 				"subst:pl:gen:m3", np, bot},
-			{0, 1, "bzom", "bez:s", false, false,
+			{0, 1, "bzom", "bez:S", false, false,
 				"subst:pl:dat:m3", np, bot},
-			{0, 1, "bzami", "bez:s", false, false,
+			{0, 1, "bzami", "bez:S", false, false,
 				"subst:pl:inst:m3", np, bot},
-			{0, 1, "bzach", "bez:s", false, false,
+			{0, 1, "bzach", "bez:S", false, false,
 				"subst:pl:loc:m3", np, bot},
-			{0, 1, "b", "bez", false, false, "brev:pun", "", ""},
-			{0, 1, "beze", "bez:p", false, false,
+			{0, 1, "beze", "bez:P", false, false,
 				"prep:gen:wok", "", ""},
-			{0, 1, "bez", "bez:p", false, false,
+			{0, 1, "bez", "bez:P", false, false,
 				"prep:gen:nwok", "", ""},
+			{0, 1, "b", "bez", false, false, "brev:pun", "", ""},
 		}, "bez"},
 		{[]tokenInfo{
-			{0, 1, "beze", "bez:p", false, false,
+			{0, 1, "beze", "bez:P", false, false,
 				"prep:gen:wok", "", ""},
-			{0, 1, "bez", "bez:p", false, false,
+			{0, 1, "bez", "bez:P", false, false,
 				"prep:gen:nwok", "", ""},
-		}, "bez:p"},
+		}, "bez:P"},
 		{[]tokenInfo{
 			{0, 1, "xyz", "xyz", true, false, "ign", "", ""},
 		}, "xyz"},
@@ -286,11 +286,11 @@ func TestGenerate(t *testing.T) {
 		give string
 	}{
 		{[]tokenInfo{
-			{0, 1, "bzu", "bez:s", false, false,
+			{0, 1, "bzu", "bez:S", false, false,
 				"subst:sg:gen:m3", np, bot},
-		}, "subst:sg:gen:m3", "bez:s"},
+		}, "subst:sg:gen:m3", "bez:S"},
 		{[]tokenInfo{
-			{0, 1, "bzu", "bez:s", false, false,
+			{0, 1, "bzu", "bez:S", false, false,
 				"subst:sg:gen:m3", np, bot},
 		}, "subst:sg:gen:m3", "bez"},
 		{[]tokenInfo{
@@ -334,7 +334,6 @@ func TestUsage(t *testing.T) {
 func TestDictionarySearchPaths(t *testing.T) {
 	m, _ := morfeusz.New(nil)
 	paths := m.DictionarySearchPaths()
-	assertNonEmpty(t, len(paths))
 
 	m.PrependToDictionarySearchPaths("first_path")
 	want := append([]string{"first_path"}, paths...)
@@ -430,12 +429,29 @@ func makeTokenInfoSlice(
 	return ret
 }
 
+func makeMultiset(tis []tokenInfo) map[tokenInfo]int {
+	ret := map[tokenInfo]int{}
+	for _, ti := range tis {
+		ret[ti] += 1
+	}
+	return ret
+}
+
 func assertEqualTokenInfoSlices(t *testing.T, got, want []tokenInfo) {
 	assertNonEmpty(t, len(got))
 	assertEqualInt(t, len(got), len(want))
-	for i, g := range got {
-		if g != want[i] {
-			t.Errorf("got %v; want %v", g, want[i])
+	gotSet := makeMultiset(got)
+	wantSet := makeMultiset(want)
+	for g, gn := range gotSet {
+		wn := wantSet[g]
+		if gn != wn {
+			t.Errorf("got %v %d times; want it %d times", g, gn, wn)
+		}
+	}
+	for w, wn := range wantSet {
+		gn := gotSet[w]
+		if gn == 0 {
+			t.Errorf("got %v %d times; want it %d times", w, 0, wn)
 		}
 	}
 }
